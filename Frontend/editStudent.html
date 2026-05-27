@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Management System</title>
+    <link rel="stylesheet" type="text/css" href="styles/style1.css" />
+  </head>
+  <body>
+    <div>
+      <nav>
+        <a href="index.html">DashBoard</a> &nbsp;
+        <a href="addStudent.html">Add Student</a> &nbsp;
+        <a href="viewStudents.html">View Students</a> &nbsp;
+        <a href="logout.html">Logout</a>
+      </nav>
+    </div>
+    <div style="text-align: center" class="formDiv">
+      <h3>Edit Student</h3>
+      <form action="./viewStudents.html">
+        <label for="rollNumber">Enter the Roll Number :</label>
+        <input
+          type="text"
+          id="rollNumber"
+          placeholder="roll number"
+          value="23B81A05R7"
+          required
+        />
+        <label for="name">Enter the Name :</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Name"
+          value="Abhinay"
+          required
+        />
+        <label for="branch">Enter the Branch:</label>
+        <input
+          type="text"
+          id="branch"
+          required
+          placeholder="Branch"
+          value="CSE"
+        />
+        <label for="cgpa">Enter the CGPA:</label>
+        <input
+          type="number"
+          id="cgpa"
+          required
+          placeholder="CGPA"
+          step="any"
+          value="9.4"
+        />
+        <button type="submit">Edit Student</button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Management System</title>
+    <style>
+      .divTable {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+        margin: 20px;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="styles/style1.css" />
+  </head>
+  <body>
+    <div>
+      <nav>
+        <a href="index.html">DashBoard</a> &nbsp;
+        <a href="addStudent.html">Add Student</a> &nbsp;
+        <a href="viewStudents.html">View Students</a> &nbsp;
+        <a href="logout.html">Logout</a>
+      </nav>
+    </div>
+    <div class="divTable">
+      <h1>View Students</h1>
+      <table>
+        <tr>
+          <th>Roll Number</th>
+          <th>Name</th>
+          <th>Branch</th>
+          <th>CGPA</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+        <tr>
+          <td>23B81A05R7</td>
+          <td>Abhinay</td>
+          <td>CSE</td>
+          <td>9.4</td>
+          <td>
+            <a href="./editStudent.html">Edit</a>
+          </td>
+          <td>
+            <a href="">Delete</a>
+          </td>
+        </tr>
+        <tr>
+          <td>23B81A05R8</td>
+          <td>Abhiram</td>
+          <td>CSE</td>
+          <td>9.1</td>
+          <td>
+            <a href="./editStudent.html">Edit</a>
+          </td>
+          <td>
+            <a href="">Delete</a>
+          </td>
+        </tr>
+        <tr>
+          <td>23B81A05R9</td>
+          <td>Akshith</td>
+          <td>CSE</td>
+          <td>8.75</td>
+          <td>
+            <a href="./editStudent.html">Edit</a>
+          </td>
+          <td>
+            <a href="">Delete</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
