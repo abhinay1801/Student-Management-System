@@ -5,21 +5,39 @@ function registerUser(event)
     let rollNumber = document.getElementById("rollNumber").value;
     let password = document.getElementById("password").value;
     let conformPassword = document.getElementById("conformPassword").value;
+    let email = document.getElementById("email").value;
+    let errorElement = document.getElementById("error");
 
-    if(rollNumber.length != 10)
+    let error = "";
+
+    let rollReg = /^[0-9A-Z]{10}$/i;
+    let passReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
+
+    let emailReg = /^[0-9A-Z]{10}@cvr.ac.in$/i;
+    if(!emailReg.test(email))
     {
-        alert("Roll Number should be 10 characters");
-        return;
+         error += "entered email is invalid\n";
     }
-    if(password<8)
+    // console.log(rollNumber);
+    // console.log(typeof rollNumber);
+    // console.log(rollReg.test(rollNumber));
+    if(!rollReg.test(rollNumber))
     {
-        alert("Passwords must be atleast 8 characters");
-        return;
+        error += "Roll Number should be 10 characters\n";
+    }
+    if(!passReg.test(password))
+    {
+        error += "Passwords must be satisfy contraints\n atleast 1 uppercase\natleast 1 lowercase\natleast 1 digit\naltest 1 special charcter ([!@#$%^&*]) ";
     }
 
     if(password !== conformPassword)
     {
-        alert("Passwords do not match");
+        error += "Passwords do not match\n";
+    }
+
+    if(error.length>0)
+    {
+        errorElement.innerText = error;
         return;
     }
 

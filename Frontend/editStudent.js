@@ -17,6 +17,49 @@ function edit(event)
 {
     event.preventDefault();
 
+    let errorElement = document.getElementById("error");
+
+    let error = "";
+
+    let rollReg = /^[0-9A-Z]{10}$/i;
+    if(!rollReg.test(rollNumber.value))
+    {
+        error += "Roll Number should be 10 characters\n";
+    }
+
+
+    let nameReg =/^[a-z]+$/i;
+     if(!nameReg.test(name.value))
+    {
+        error += "Name should contains only alphabets\n";
+    }
+    // console.log(branch);
+
+
+    let branchReg = /(CSE|CSD|CSM|CSC|AIM|AID|EEE|ECE|MECH|CIVIL|IT)/i;
+    // console.log(branchReg.test(branch));
+     if(!branchReg.test(branch.value))
+    {
+        error += "Invalid Branch\n";
+    }
+
+
+    let cgpaReg = /^([0-9](\.[0-9]{1,2})?|(10(\.[0]{1,2})?))$/;
+    // console.log(cgpa);
+    // console.log(cgpaReg.test(cgpa));
+    if(!cgpaReg.test(cgpa.value))
+    {
+        error += "Invalid CGPA\n";
+    }
+
+
+
+    if(error.length>0)
+    {
+        errorElement.innerText = error;
+        return;
+    }
+
     let editStudent = {
         rollNumber : rollNumber.value,
         name : name.value,

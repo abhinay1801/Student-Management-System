@@ -19,10 +19,11 @@
     <div style="text-align: center" class="formDiv">
         <h2>Add a Student</h2>
         <form action="" onsubmit="addStudent(event)">
+            <h4 id="error"></h4>
             <label for="rollNumber">Roll Number :</label>
-            <input type="text" id="rollNumber" placeholder="roll number" required>
+            <input type="text" id="rollNumber" placeholder="roll number" required pattern="[0-9A-Z]{10}">
             <label for="name">Name :</label>
-            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="name" placeholder="Name" required >
             <label for="branch">Branch:</label>
             <input type="text" id="branch" required placeholder="Branch" >
             <label for="cgpa">CGPA:</label>
