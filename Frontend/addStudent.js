@@ -1,4 +1,4 @@
-function addStudent(event)
+async function addStudent(event)
 {
     event.preventDefault();
 
@@ -16,7 +16,7 @@ function addStudent(event)
         error += "Roll Number should be 10 characters\n";
     }
 
-    let nameReg =/^[a-z]+$/i;
+    let nameReg =/^[a-zA-Z]+([a-zA-Z\s]*[a-zA-Z]+)?$/;
      if(!nameReg.test(name))
     {
         error += "Name should contains only alphabets\n";
@@ -59,8 +59,24 @@ function addStudent(event)
         branch : branch,
         cgpa : cgpa
     }
-    studentDetails.push(data);
+
+     try{
+        await fetch("http://localhost:3000/students",{
+            method:"POST",
+            body:JSON.stringify(data)
+        })
+        .then(res=>console.log(res))
+        .catch(error=>console.log(error));
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+
+    // studentDetails.push(data);
     // console.log(studentDetails);
-    localStorage.setItem("studentDetails",JSON.stringify(studentDetails));
+    // localStorage.setItem("studentDetails",JSON.stringify(studentDetails));
+
+    
     window.location.href="./viewStudents.html";
 }

@@ -1,4 +1,4 @@
-function registerUser(event)
+async function registerUser(event)
 {
     event.preventDefault();
 
@@ -43,9 +43,23 @@ function registerUser(event)
 
     let data = {
         rollNumber : rollNumber,
-        password : password
+        password : password,
+        email : email
     }
 
-    localStorage.setItem("loginDetails",JSON.stringify(data));
+    try{
+        await fetch("http://localhost:3000/users",{
+            method:"POST",
+            body:JSON.stringify(data)
+        })
+        .then(res=>console.log(res))
+        .catch(error=>console.log(error));
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+    
+    // localStorage.setItem("loginDetails",JSON.stringify(data));
     window.location.href = "./login.html";
 }

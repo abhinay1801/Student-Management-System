@@ -1,4 +1,6 @@
-function login(event)
+const { use } = require("react");
+
+async function login(event)
 {
     event.preventDefault();
 
@@ -17,17 +19,42 @@ function login(event)
 
     let data = JSON.parse(localStorage.getItem("loginDetails"));
 
-    if(data.rollNumber != rollNumber || data.password != password)
+    try{
+        let response = await fetch("http://localhost:3000/users",{
+            method:"GET"
+        });
+        let data = await response.json();
+        // console.log(data);
+        let check =  data.some((user)=>user.rollNumber==rollNumber && user.password==password);
+        // console.log(check);
+        if(check)
+        {
+            // console.log("login successfully");
+            window.location.href = "./dashboard.html"
+        }
+        else
+        {
+            error += "Invalid credentials";
+        }
+    }
+    catch(error)
     {
-        error += "Invalid credentials\n";
+        console.log(error);
     }
 
-     if(error.length>0)
+    // if(data.rollNumber != rollNumber || data.password != password)
+    // {
+    //     error += "Invalid credentials\n";
+    // }
+
+    if(error.length>0)
     {
         errorElement.innerText = error;
         return;
     }
 
+
     console.log("login successfully");
-    window.location.href = "./dashboard.html"
+    
+    // window.location.href = "./dashboard.html"
 }
