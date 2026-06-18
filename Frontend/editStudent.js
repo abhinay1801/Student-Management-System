@@ -8,7 +8,7 @@ let cgpa = document.getElementById("cgpa");
 
 async function getData(idx) {
     try {
-        let response = await fetch(`http://localhost:3000/students/${idx}`,{
+        let response = await fetch(`http://localhost:3000/students/${idx}`, {
             method: "GET"
         });
         let student = await response.json();
@@ -17,8 +17,7 @@ async function getData(idx) {
         branch.value = student.branch;
         cgpa.value = student.cgpa;
     }
-    catch(error)
-    {
+    catch (error) {
         console.log(error);
     }
 }
@@ -38,7 +37,7 @@ async function edit(event) {
     }
 
 
-    let nameReg =/^[a-zA-Z]+([a-zA-Z\s]*[a-zA-Z]+)?$/;
+    let nameReg = /^[a-zA-Z]+([a-zA-Z\s]*[a-zA-Z]+)?$/;
     if (!nameReg.test(name.value)) {
         error += "Name should contains only alphabets\n";
     }
@@ -73,24 +72,28 @@ async function edit(event) {
         cgpa: cgpa.value
     };
 
-    try{
+    try {
         await fetch(`http://localhost:3000/students/${idx}`, {
             method: "PUT",
-            body:JSON.stringify(editStudent)
+            body: JSON.stringify(editStudent)
         })
             .then(response => {
                 if (response.ok) {
-                    console.log('Object deleted successfully');
+                    console.log('Student Edited successfully');
+                    window.location.href = "./viewStudents.html";
                 }
             })
-            .catch(error => console.error('Error deleting object:', error));
+            .catch(error => {
+                console.error('Error in deleting Students', error);
+                window.alert("Error in Editing Student");
+                return;
+            });
     }
-    catch(error)
-    {
+    catch (error) {
         console.log(error);
     }
     // data[idx] = editStudent;
     // localStorage.setItem("studentDetails", JSON.stringify(data));
 
-    window.location.href = "./viewStudents.html";
+    // window.location.href = "./viewStudents.html";
 }

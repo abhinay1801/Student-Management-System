@@ -46,23 +46,27 @@ function edit(idx) {
 
 async function remove(idx) {
     // console.log(idx);
+    if(!confirm("are you want delete student"))
+    {
+        return;
+    }
     try {
         await fetch(`http://localhost:3000/students/${idx}`, {
             method: "DELETE"
         })
             .then(response => {
                 if (response.ok) {
-                    console.log('Object deleted successfully');
+                    console.log('Student deleted successfully');
                 }
             })
-            .catch(error => console.error('Error deleting object:', error));
+            .catch(error => console.error('Error in deleting Student', error));
     }
     catch (error) {
         console.log(error);
     }
     // data.splice(idx,1);
     // localStorage.setItem("studentDetails",JSON.stringify(data));
-    window.alert("student deleted successfully");
+    // window.alert("student deleted successfully");
     display();
 }
 
