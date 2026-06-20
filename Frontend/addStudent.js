@@ -46,27 +46,36 @@ async function addStudent(event)
 
 
 
-    let studentDetails = JSON.parse(localStorage.getItem("studentDetails"));
+    // let studentDetails = JSON.parse(localStorage.getItem("studentDetails"));
     // console.log(studentDetails);
-    if(studentDetails==null)
-    {
-        studentDetails = [];
-    }
+    // if(studentDetails==null)
+    // {
+    //     studentDetails = [];
+    // }
 
     let data = {
-        rollNumber : rollNumber,
+        rollNumber : rollNumber.toLowerCase(),
         name : name,
         branch : branch,
         cgpa : cgpa
     }
 
      try{
-        await fetch("http://localhost:3000/students",{
+        const response  = await fetch("http://localhost:3000/students",{
             method:"POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body:JSON.stringify(data)
         })
-        .then(res=>console.log(res))
-        .catch(error=>console.log(error));
+
+        const info = await response.json();
+        if (!info.success) {
+            error += info.message;
+        }
+        else {
+             window.location.href="./viewStudents.html";
+        }
     }
     catch(error)
     {
@@ -78,5 +87,5 @@ async function addStudent(event)
     // localStorage.setItem("studentDetails",JSON.stringify(studentDetails));
 
     
-    window.location.href="./viewStudents.html";
+    // window.location.href="./viewStudents.html";
 }

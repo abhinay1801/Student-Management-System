@@ -7,7 +7,8 @@ let tbody = document.getElementsByTagName("tbody")[0];
 async function display() {
     try {
         let response = await fetch("http://localhost:3000/students");
-        let data = await response.json();
+        let dataJson = await response.json();
+        let data = dataJson.data;
         // console.log(data);
 
 
@@ -21,10 +22,10 @@ async function display() {
                     <td>${student.branch}</td>
                     <td>${student.cgpa}</td>
                     <td>
-                        <button id="${student.id}" >Edit</button>
+                        <button id="${student._id}" >Edit</button>
                     </td>
                     <td>
-                        <button id="${student.id}" >Delete</button>
+                        <button id="${student._id}" >Delete</button>
                     </td>
                 </tr>
             `
@@ -51,15 +52,23 @@ async function remove(idx) {
         return;
     }
     try {
-        await fetch(`http://localhost:3000/students/${idx}`, {
-            method: "DELETE"
+        const response = await fetch(`http://localhost:3000/students/${idx}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Student deleted successfully');
-                }
-            })
-            .catch(error => console.error('Error in deleting Student', error));
+        
+        const dataJson = await response.json();
+
+        // const data = dataJson.data;
+
+        if(!dataJson.success)
+        {
+            window.alert("failed to delete a student");
+        }
+
+        // console.log(data);
     }
     catch (error) {
         console.log(error);
@@ -72,6 +81,8 @@ async function remove(idx) {
 
 function show(event)
 {
+    if (event.target.tagName !== "BUTTON") return;
+    
     if(event.target.textContent=="Delete")
     {
         remove(event.target.id);

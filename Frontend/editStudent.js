@@ -9,9 +9,17 @@ let cgpa = document.getElementById("cgpa");
 async function getData(idx) {
     try {
         let response = await fetch(`http://localhost:3000/students/${idx}`, {
-            method: "GET"
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
         });
-        let student = await response.json();
+        let studentJson = await response.json();
+        let student = studentJson.data;
+
+        // console.log(studentJson);
+        // console.log(student);
+
         rollNumber.value = student.rollNumber;
         name.value = student.name;
         branch.value = student.branch;
@@ -72,22 +80,26 @@ async function edit(event) {
         cgpa: cgpa.value
     };
 
+    // console.log(editStudent);
+
     try {
-        await fetch(`http://localhost:3000/students/${idx}`, {
+        let response = await fetch(`http://localhost:3000/students/${idx}`, {
             method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(editStudent)
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Student Edited successfully');
-                    window.location.href = "./viewStudents.html";
-                }
-            })
-            .catch(error => {
-                console.error('Error in deleting Students', error);
-                window.alert("Error in Editing Student");
-                return;
-            });
+        let dataJson = await response.json();
+
+        if(!dataJson.success)
+        {
+            window.alert("failed to update student details");
+        }
+        else
+        {
+            window.location.href = "./viewStudents.html";
+        }
     }
     catch (error) {
         console.log(error);

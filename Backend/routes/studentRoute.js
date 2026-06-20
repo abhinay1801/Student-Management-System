@@ -1,10 +1,9 @@
 const express = require("express");
 const Student = require('../models/student');
-const { message } = require("prompt");
 const router = express.Router();
 
 
-router.post("/addStudent",async (req,res)=>{
+router.post("/",async (req,res)=>{
     try{
         const newStudent = new Student(req.body);
         const savedStudent = await newStudent.save();
@@ -29,10 +28,10 @@ router.post("/addStudent",async (req,res)=>{
 
 
 
-router.get("/viewStudents", async (req,res)=>{
+router.get("/", async (req,res)=>{
     try{
         const allStudents = await Student.find();
-        console.log(allStudents);
+        // console.log(allStudents);
         return res.status(201).json({
             success:true,
             message : "data fetched successfully",
@@ -55,7 +54,7 @@ router.get("/:id",async (req,res)=>{
         const id = req.params.id;
         // console.log(id);
         const student = await Student.findOne({_id:id});
-        console.log(student);
+        // console.log(student);
 
         if(student==null)
         {
@@ -83,12 +82,12 @@ router.get("/:id",async (req,res)=>{
 
 
 
-router.put("/editStudent/:id",async (req,res)=>{
+router.put("/:id",async (req,res)=>{
      try{
         const id = req.params.id;
-        console.log(id);
+        //console.log(id);
         const updatedStudentData = req.body;
-        console.log(updatedStudentData);
+        // console.log(updatedStudentData);
 
         const updatedStudent = await Student.findByIdAndUpdate(
             id,
@@ -125,10 +124,10 @@ router.put("/editStudent/:id",async (req,res)=>{
 
 
 
-router.delete("/deleteStudent/:id",async (req,res)=>{
+router.delete("/:id",async (req,res)=>{
     try{
         const id = req.params.id;
-        console.log(id);
+        // console.log(id);
 
         const deletedStudent = await Student.findByIdAndDelete(id)
 

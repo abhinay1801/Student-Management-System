@@ -1,7 +1,5 @@
-const { use } = require("react");
 
-async function login(event)
-{
+async function login(event) {
     event.preventDefault();
 
     let rollNumber = document.getElementById("rollNumber").value;
@@ -12,33 +10,38 @@ async function login(event)
     let error = "";
 
     let rollReg = /^[0-9A-Z]{10}$/i;
-    if(!rollReg.test(rollNumber))
-    {
+    if (!rollReg.test(rollNumber)) {
         error += "Roll Number should be 10 characters\n";
     }
 
-    let data = JSON.parse(localStorage.getItem("loginDetails"));
+    if (error.length > 0) {
+        errorElement.innerText = error;
+        return;
+    }
 
-    try{
-        let response = await fetch("http://localhost:3000/users",{
-            method:"GET"
+    let details  = {
+        rollNumber : rollNumber.toLowerCase(),
+        password : password
+    }
+    // console.log(details);
+    try {
+        let response = await fetch("http://localhost:3000/users/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(details)
         });
-        let data = await response.json();
-        // console.log(data);
-        let check =  data.some((user)=>user.rollNumber==rollNumber && user.password==password);
-        // console.log(check);
-        if(check)
-        {
-            // console.log("login successfully");
+        const data = await response.json();
+
+        if (!data.success) {
+            error += data.message;
+        }
+        else {
             window.location.href = "./dashboard.html"
         }
-        else
-        {
-            error += "Invalid credentials";
-        }
     }
-    catch(error)
-    {
+    catch (error) {
         console.log(error);
     }
 
@@ -47,14 +50,11 @@ async function login(event)
     //     error += "Invalid credentials\n";
     // }
 
-    if(error.length>0)
-    {
+    if (error.length > 0) {
         errorElement.innerText = error;
         return;
     }
 
 
     console.log("login successfully");
-    
-    // window.location.href = "./dashboard.html"
 }

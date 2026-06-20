@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const studentSchema = mongoose.Schema({
     rollNumber: {
         type: String,
+        lowercase : true,
         required: true,
         unique: true,
         trim: true,
-        minLength: [10, 'roll number must be exactly 5 characters long'],
-        maxLength: [10, 'roll number must be exactly 5 characters long']
+        minLength: [10, 'roll number must be exactly 10 characters long'],
+        maxLength: [10, 'roll number must be exactly 10 characters long']
     },
     name : {
         type: String,

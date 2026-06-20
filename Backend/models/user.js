@@ -6,7 +6,11 @@ const userSchema = mongoose.Schema({
     rollNumber :{
         type : String,
         required : true,
-        unique : true
+        unique : true,
+        lowercase: true,
+        trim : true,
+        minLength: [10, 'roll number must be exactly 10 characters long'],
+        maxLength: [10, 'roll number must be exactly 10 characters long']
     },
     email : {
         type : String,

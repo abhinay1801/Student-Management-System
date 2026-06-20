@@ -1,16 +1,30 @@
 const express = require('express');
 const db = require('./db');
+const cors = require("cors");
+
 const app = express();
 
-const loginRoute = require("./routes/loginRoute");
+
+
+const userRoute = require("./routes/userRoute");
 const studentRoute = require("./routes/studentRoute");
+
+
 app.use(express.json());
+app.use(
+  cors({
+    origin :[
+      "http://localhost:5500",
+      "http://127.0.0.1:5500"
+    ],
+    methods : ["GET", "POST", "PUT", "DELETE"]
+  })
+);
 
 
 
-
-app.use("/",loginRoute);
-app.use("/student",studentRoute);
+app.use("/users",userRoute);
+app.use("/students",studentRoute);
 
 
 app.use((err, req, res, next) => {
