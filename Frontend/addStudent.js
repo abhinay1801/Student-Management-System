@@ -1,3 +1,10 @@
+let token = localStorage.getItem("token");
+// console.log(token);
+if (!token) {
+    window.alert("unauthorization access");
+    window.location.href = "login.html";
+    // return;
+}
 async function addStudent(event)
 {
     event.preventDefault();
@@ -64,12 +71,20 @@ async function addStudent(event)
         const response  = await fetch("http://localhost:3000/students",{
             method:"POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             },
             body:JSON.stringify(data)
         })
 
         const info = await response.json();
+        if(response.status==401)
+        {
+            window.alert(info.message);
+            window.location.href = "login.html"
+            return;
+        }
+
         if (!info.success) {
             error += info.message;
         }

@@ -9,7 +9,7 @@ const app = express();
 const userRoute = require("./routes/userRoute");
 const studentRoute = require("./routes/studentRoute");
 
-
+require("dotenv").config();
 app.use(express.json());
 app.use(
   cors({

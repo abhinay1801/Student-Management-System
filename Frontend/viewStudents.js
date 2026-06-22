@@ -1,15 +1,31 @@
 let tbody = document.getElementsByTagName("tbody")[0];
 // let data = JSON.parse(localStorage.getItem("studentDetails"));
-
-// console.log(data);
+let token = localStorage.getItem("token");
+// console.log(token);
+if (!token) {
+    window.alert("unauthorization access");
+    window.location.href = "login.html";
+    // return;
+}
 
 
 async function display() {
     try {
-        let response = await fetch("http://localhost:3000/students");
+        let response = await fetch("http://localhost:3000/students", {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        // console.log(response.status);
         let dataJson = await response.json();
+        // console.log(dataJson);
+        if (response.status == 401) {
+            window.alert(dataJson.message);
+            window.location.href = "login.html"
+            return;
+        }
         let data = dataJson.data;
-        // console.log(data);
+        // console.log(dataJson);
 
 
         let tdata = "";
@@ -47,24 +63,27 @@ function edit(idx) {
 
 async function remove(idx) {
     // console.log(idx);
-    if(!confirm("are you want delete student"))
-    {
+    if (!confirm("are you want delete student")) {
         return;
     }
     try {
         const response = await fetch(`http://localhost:3000/students/${idx}`, {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             },
         })
-        
-        const dataJson = await response.json();
 
+        const dataJson = await response.json();
+        if (response.status == 401) {
+            window.alert(dataJson.message);
+            window.location.href = "login.html"
+            return;
+        }
         // const data = dataJson.data;
 
-        if(!dataJson.success)
-        {
+        if (!dataJson.success) {
             window.alert("failed to delete a student");
         }
 
@@ -79,16 +98,13 @@ async function remove(idx) {
     display();
 }
 
-function show(event)
-{
+function show(event) {
     if (event.target.tagName !== "BUTTON") return;
-    
-    if(event.target.textContent=="Delete")
-    {
+
+    if (event.target.textContent == "Delete") {
         remove(event.target.id);
     }
-    else
-    {
+    else {
         edit(event.target.id);
     }
     // console.log(event.target.id);

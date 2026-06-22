@@ -1,5 +1,13 @@
 let idx = sessionStorage.getItem("editIdx");
 
+let token = localStorage.getItem("token");
+// console.log(token);
+if (!token) {
+    window.alert("unauthorization access");
+    window.location.href = "login.html";
+    // return;
+}
+
 // let data = JSON.parse(localStorage.getItem("studentDetails"));
 let rollNumber = document.getElementById("rollNumber");
 let name = document.getElementById("name");
@@ -11,12 +19,20 @@ async function getData(idx) {
         let response = await fetch(`http://localhost:3000/students/${idx}`, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             },
         });
         let studentJson = await response.json();
-        let student = studentJson.data;
+        if(response.status==401)
+        {
+            window.alert(studentJson.message);
+            window.location.href = "login.html"
+            return;
+        }
 
+
+        let student = studentJson.data;
         // console.log(studentJson);
         // console.log(student);
 
@@ -86,12 +102,18 @@ async function edit(event) {
         let response = await fetch(`http://localhost:3000/students/${idx}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(editStudent)
         })
         let dataJson = await response.json();
-
+        if(response.status==401)
+        {
+            window.alert(dataJson.message);
+            window.location.href = "login.html"
+            return;
+        }
         if(!dataJson.success)
         {
             window.alert("failed to update student details");

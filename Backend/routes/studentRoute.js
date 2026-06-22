@@ -1,9 +1,8 @@
 const express = require("express");
 const Student = require('../models/student');
 const router = express.Router();
-
-
-router.post("/",async (req,res)=>{
+const auth = require("../middleware/authMiddleware");
+router.post("/",auth,async (req,res)=>{
     try{
         const newStudent = new Student(req.body);
         const savedStudent = await newStudent.save();
@@ -25,10 +24,7 @@ router.post("/",async (req,res)=>{
 
 })
 
-
-
-
-router.get("/", async (req,res)=>{
+router.get("/",auth,async (req,res)=>{
     try{
         const allStudents = await Student.find();
         // console.log(allStudents);
@@ -49,7 +45,7 @@ router.get("/", async (req,res)=>{
 })
 
 
-router.get("/:id",async (req,res)=>{
+router.get("/:id",auth,async (req,res)=>{
     try{
         const id = req.params.id;
         // console.log(id);
@@ -58,11 +54,12 @@ router.get("/:id",async (req,res)=>{
 
         if(student==null)
         {
-             return res.status(404).json({
+            return res.status(404).json({
             success: false,
             message : "no student with id"
         });
         }
+        
         return res.status(201).json({
             success:true,
             message : "data fetched successfully",
@@ -82,7 +79,7 @@ router.get("/:id",async (req,res)=>{
 
 
 
-router.put("/:id",async (req,res)=>{
+router.put("/:id",auth,async (req,res)=>{
      try{
         const id = req.params.id;
         //console.log(id);
@@ -124,7 +121,7 @@ router.put("/:id",async (req,res)=>{
 
 
 
-router.delete("/:id",async (req,res)=>{
+router.delete("/:id",auth,async (req,res)=>{
     try{
         const id = req.params.id;
         // console.log(id);

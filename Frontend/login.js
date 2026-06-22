@@ -38,6 +38,7 @@ async function login(event) {
             error += data.message;
         }
         else {
+            localStorage.setItem("token",data.token);
             window.location.href = "./dashboard.html"
         }
     }
