@@ -1,22 +1,22 @@
 let tbody = document.getElementsByTagName("tbody")[0];
 // let data = JSON.parse(localStorage.getItem("studentDetails"));
-let token = localStorage.getItem("token");
-// console.log(token);
-if (!token) {
-    window.alert("unauthorization access");
-    window.location.href = "login.html";
-    // return;
-}
+// let token = localStorage.getItem("token");
+// // console.log(token);
+// if (!token) {
+//     window.alert("unauthorization access");
+//     window.location.href = "login.html";
+//     // return;
+// }
 
 
 async function display() {
     try {
-        let response = await fetch("http://localhost:3000/students", {
-            headers: {
-                'Authorization': `Bearer ${token}`
+        let response = await fetch("http://127.0.0.1:3000/students",
+            {
+                credentials: "include"
             }
-        });
-        // console.log(response.status);
+        );
+        // console.log(response);
         let dataJson = await response.json();
         // console.log(dataJson);
         if (response.status == 401) {
@@ -67,12 +67,13 @@ async function remove(idx) {
         return;
     }
     try {
-        const response = await fetch(`http://localhost:3000/students/${idx}`, {
+        const response = await fetch(`http://127.0.0.1:3000/students/${idx}`, {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json"
+                // 'Authorization': `Bearer ${token}`
             },
+            credentials: "include"
         })
 
         const dataJson = await response.json();

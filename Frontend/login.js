@@ -19,27 +19,39 @@ async function login(event) {
         return;
     }
 
-    let details  = {
-        rollNumber : rollNumber.toLowerCase(),
-        password : password
+    let details = {
+        rollNumber: rollNumber.toLowerCase(),
+        password: password
     }
     // console.log(details);
     try {
-        let response = await fetch("http://localhost:3000/users/login", {
+        let response = await fetch("http://127.0.0.1:3000/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
+            credentials: "include",
             body: JSON.stringify(details)
         });
         const data = await response.json();
-
+        // console.log(data);
         if (!data.success) {
             error += data.message;
         }
         else {
-            localStorage.setItem("token",data.token);
+            // localStorage.setItem("token",data.token);
             window.location.href = "./dashboard.html"
+            // async function help()
+            // {
+
+            //     await fetch("http://127.0.0.1:3000/test", {
+            //         credentials: "include"
+            //     })
+            //         .then(res => res.json())
+            //         .then(console.log);
+            //     console.log("login");
+            // }
+            // help();
         }
     }
     catch (error) {

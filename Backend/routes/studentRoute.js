@@ -6,7 +6,7 @@ router.post("/",auth,async (req,res)=>{
     try{
         const newStudent = new Student(req.body);
         const savedStudent = await newStudent.save();
-
+        // console.log(savedStudent);
         return res.status(201).json({
             success:true,
             message : "new student stored succesfully",

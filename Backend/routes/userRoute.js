@@ -2,50 +2,90 @@ const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { use } = require("react");
+
 
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
     try {
-        const {rollNumber , password} = req.body;
-        const user = await User.findOne({ rollNumber});
+        const { rollNumber, password } = req.body;
+        const user = await User.findOne({ rollNumber });
         // console.log(rollNumber);
-        console.log(user);
+        // console.log(user);
 
-        if (user==null) {
+        if (user == null) {
             return res.status(404).json({
                 success: false,
                 message: "user not found"
             })
         }
 
-        const check = await bcrypt.compare(password,user.password);
+        const check = await bcrypt.compare(password, user.password);
 
-        if(!check)
-        {
-             return res.status(400).json({
-                success:false,
+        if (!check) {
+            return res.status(400).json({
+                success: false,
                 message: "Invalid credentials"
             });
         }
 
-        const token = jwt.sign(
+        // const token = jwt.sign(
+        //     {
+        //         email:user.email
+        //     },
+        //     process.env.JWT_SECRET,
+        //     {
+        //         expiresIn: "1h"
+        //     }
+        // )
+
+        // return res.status(200).json({
+        //     success:true,
+        //     message: "Login Successful",
+        //     token
+        // });
+
+        const access_token = jwt.sign(
             {
-                email:user.email
+                email: user.email
             },
-            process.env.JWT_SECRET,
+            process.env.ACCESS_SECRET,
             {
-                expiresIn: "1h"
+                expiresIn: "15m"
             }
         )
+        const refresh_token = jwt.sign(
+            {
+                email: user.email
+            },
+            process.env.REFRESH_SECRET,
+            {
+                expiresIn: "7d"
+            }
+        )
+        
+        res.cookie("accessToken", access_token, {
+            httpOnly: true,
+            secure: false, // true in production  sameSite : "strict"
+            sameSite: "lax",
+            path:"/",
+            maxAge: 15 * 60 * 1000
+        })
 
-        return res.status(200).json({
+        res.cookie("refreshToken", refresh_token, {
+            httpOnly: true,
+            secure: false, // true in production 
+            sameSite: "lax",
+            path:"/",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        res.status(200).json({
             success:true,
-            message: "Login Successful",
-            token
+            message: "Login successful"
         });
 
-        
 
     }
     catch (err) {
@@ -67,7 +107,7 @@ router.post("/register", async (req, res) => {
         // console.log(req.body);
         const existingUser = await User.findOne({ rollNumber });
         // console.log(existingUser);
-        if (existingUser!=null) {
+        if (existingUser != null) {
             // console.log("122");
             return res.status(409).json(
                 {
@@ -76,12 +116,12 @@ router.post("/register", async (req, res) => {
                 }
             );
         }
-        const hashedPassword = await bcrypt.hash(password,12);
-        
+        const hashedPassword = await bcrypt.hash(password, 12);
+
         const newUser = new User({
             rollNumber,
             email,
-            password : hashedPassword
+            password: hashedPassword
         });
         // console.log(newUser);
         const savedUser = await newUser.save();

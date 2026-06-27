@@ -1,12 +1,12 @@
 let idx = sessionStorage.getItem("editIdx");
 
-let token = localStorage.getItem("token");
-// console.log(token);
-if (!token) {
-    window.alert("unauthorization access");
-    window.location.href = "login.html";
-    // return;
-}
+// let token = localStorage.getItem("token");
+// // console.log(token);
+// if (!token) {
+//     window.alert("unauthorization access");
+//     window.location.href = "login.html";
+//     // return;
+// }
 
 // let data = JSON.parse(localStorage.getItem("studentDetails"));
 let rollNumber = document.getElementById("rollNumber");
@@ -16,13 +16,15 @@ let cgpa = document.getElementById("cgpa");
 
 async function getData(idx) {
     try {
-        let response = await fetch(`http://localhost:3000/students/${idx}`, {
+        let response = await fetch(`http://127.0.0.1:3000/students/${idx}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
+            credentials: "include"
         });
+        // console.log(response);
         let studentJson = await response.json();
         if(response.status==401)
         {
@@ -99,12 +101,13 @@ async function edit(event) {
     // console.log(editStudent);
 
     try {
-        let response = await fetch(`http://localhost:3000/students/${idx}`, {
+        let response = await fetch(`http://127.0.0.1:3000/students/${idx}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
+            credentials: "include",
             body: JSON.stringify(editStudent)
         })
         let dataJson = await response.json();

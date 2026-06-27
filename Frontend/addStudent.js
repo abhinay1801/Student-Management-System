@@ -1,10 +1,10 @@
-let token = localStorage.getItem("token");
-// console.log(token);
-if (!token) {
-    window.alert("unauthorization access");
-    window.location.href = "login.html";
-    // return;
-}
+// let token = localStorage.getItem("token");
+// // console.log(token);
+// if (!token) {
+//     window.alert("unauthorization access");
+//     window.location.href = "login.html";
+//     // return;
+// }
 async function addStudent(event)
 {
     event.preventDefault();
@@ -68,16 +68,18 @@ async function addStudent(event)
     }
 
      try{
-        const response  = await fetch("http://localhost:3000/students",{
+        const response  = await fetch("http://127.0.0.1:3000/students",{
             method:"POST",
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json"
             },
+            credentials: "include",
             body:JSON.stringify(data)
         })
 
+
         const info = await response.json();
+        console.log(info);
         if(response.status==401)
         {
             window.alert(info.message);

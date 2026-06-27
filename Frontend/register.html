@@ -19,15 +19,15 @@
         <form action="" onsubmit="registerUser(event)">
             <h4 id="error"></h4>
             <label for="rollNumber">Roll Number :</label>
-            <input type="text" id="rollNumber" placeholder="roll number" required>
+            <input type="text" id="rollNumber" placeholder="roll number" required autocomplete="rollNumber">
             <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="E-mail" required>
+            <input type="email" id="email" placeholder="E-mail" autocomplete="email" required>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" required placeholder="password">
+            <input type="password" id="password" autocomplete="password" required placeholder="password">
 
             <label for="conformPassword">Re-Type Password:</label>
-            <input type="password" id="conformPassword" required placeholder="password">
+            <input type="password" id="conformPassword" autocomplete="reTypePassword"  required placeholder="password">
             <button type="submit">Register</button>
             <p>go to <a href="login.html">Login</a></p>
         </form>
